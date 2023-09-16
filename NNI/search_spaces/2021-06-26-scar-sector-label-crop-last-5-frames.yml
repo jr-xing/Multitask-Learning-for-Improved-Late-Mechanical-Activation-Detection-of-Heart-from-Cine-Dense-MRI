@@ -1,0 +1,30 @@
+{
+    "exp_type":    {"_type":"choice", "_value": ["cls"]},
+    "data_record_filename":    {"_type":"choice", "_value": ["record_sheets/cardiac-strainmat-dataset-2021-06-13-scar-classification.xlsx"]},
+    "scar_free":    {"_type":"choice", "_value": ["False"]},    
+    "input_info":  {"_type":"choice", "_value": ["strainMatFullResolutionSVD"]},
+    "output_info": {"_type":"choice", "_value": ["scar_sector_label"]},
+    "augmentation": {"_type":"choice", "_value": ['
+        {"method":"shift_sector", "paras":"-48,48,3", "include_data_conditions":"has_scar_sector_label"}+
+        {"method":"mixup", "paras":"0.5,500", "include_data_conditions":"has_scar_sector_label"}+
+        {"method":"shift_sector", "paras":"-32,32,10", "include_data_conditions":"no_scar_sector_label"}+
+        {"method":"mixup", "paras":"0.5,100", "include_data_conditions":"no_scar_sector_label"}
+        ']},
+    "batch_size":   {"_type":"choice", "_value": [64, 128]},
+    "learning_rate":{"_type":"choice","_value":[0.0001, 0.001, 0.01]},
+    "batch_norm":   {"_type":"choice","_value":[True]},
+    "joint_n_conv_layers":  {"_type":"choice", "_value": [3, 4, 5, 6]},
+    "joint_n_conv_channels":{"_type":"choice", "_value": [4, 8, 12, 16]},
+    "joint_conv_size":      {"_type":"choice", "_value": [3, 5, 9, 19]},
+    "reg_n_conv_layers":    {"_type":"choice", "_value": [0, 1, 2, 3, 4]},
+    "reg_n_conv_channels":  {"_type":"choice", "_value": [8, 12, 16]},
+    "reg_conv_size":        {"_type":"choice", "_value": [3, 5, 9, 19]},
+    "reg_n_linear_layers":  {"_type":"choice", "_value": [2, 3, 4]},
+    "cls_n_conv_layers":    {"_type":"choice", "_value": [0, 1, 2, 3, 4]},
+    "cls_n_conv_channels":  {"_type":"choice", "_value": [8, 12, 16]},
+    "cls_conv_size":        {"_type":"choice", "_value": [3, 5, 7, 9, 19]},
+    "cls_n_linear_layers":  {"_type":"choice", "_value": [2, 3, 4]},
+    "regularize_weight":    {"_type":"choice", "_value": [0, 0.1, 0.5, 1]},
+    # "regularize_weight":    {"_type":"choice", "_value": [0]},
+    # "cls_weight":           {"_type":"choice", "_value": [1e-1, 1e1, 1e2, 1e3]}
+}

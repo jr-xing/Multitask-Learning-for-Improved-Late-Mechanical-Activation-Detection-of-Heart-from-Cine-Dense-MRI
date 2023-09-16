@@ -1,0 +1,35 @@
+{
+    "exp_type":    {"_type":"choice", "_value": ["multitask-reg-cls"]},
+    "data_record_filename":    {"_type":"choice", "_value": ["record_sheets/cardiac-strainmat-dataset-2021-07-04-late-activation-region-classification.xlsx"]},
+    "use_data_with_scar":    {"_type":"choice", "_value": ["all"]},    
+    "remove_sector_label_spikes":    {"_type":"choice", "_value": ["True"]},    
+    "input_info":  {"_type":"choice", "_value": ["strainmat:strainMatFullResolutionSVD"]},
+    "output_info": {"_type":"choice", "_value": ["cls:late_activation_sector_label+reg:TOS126"]},
+    "augmentation": {"_type":"choice", "_value": ['
+        {"method":"shift_sector", "paras":"-50,50,5", "include_data_conditions":"has_scar"}+
+        {"method":"mixup", "paras":"0.5,400", "include_data_conditions":"has_scar"}+
+        {"method":"shift_sector", "paras":"-32,32,10", "include_data_conditions":"no_scar"}+
+        {"method":"mixup", "paras":"0.5,100", "include_data_conditions":"no_scar"}
+        ']},
+    "batch_size":   {"_type":"choice", "_value": [16, 32, 64]},
+    "learning_rate":{"_type":"choice","_value":[0.0001, 0.001, 0.01]},
+    "batch_norm":   {"_type":"choice","_value":[True]},
+    "joint_init_conv_channel_num":  {"_type":"choice", "_value": [4, 8, 16, 32]},
+    "joint_conv_layer_num":  {"_type":"choice", "_value": [1, 2, 3, 4]},
+    "reg_conv_layer_num":  {"_type":"choice", "_value": [1, 2, 3, 4]},
+    "reg_pooling_layer_num_max":  {"_type":"choice", "_value": [1, 2, 3, 4]},
+    "reg_linear_layer_num":  {"_type":"choice", "_value": [1, 2, 3, 4, 5, 6]},
+    "cls_conv_layer_num":  {"_type":"choice", "_value": [1, 2, 3, 4]},
+    "cls_pooling_layer_num_max":  {"_type":"choice", "_value": [1, 2, 3, 4]},
+    "cls_linear_layer_num":  {"_type":"choice", "_value": [1, 2, 3, 4, 5, 6]},
+    "cls_class_normlize_layer":  {"_type":"choice", "_value": ["log softmax"]},    
+    "regularize_weight":    {"_type":"choice", "_value": [0, 0.1, 0.5, 1]},
+    "activation_func":    {"_type":"choice", "_value": ["ReLU"]},
+    "eval":    {"_type":"choice", "_value": ['{"method": "multitask-reg-cls", 
+        "paras": [
+            {"type": "MSE", "weight": 1, "target_tag": "reg"},
+            {"type": "Negative log likelihood", "weight": 10, "target_tag": "cls"}
+            ]}']},
+    "CAM_target_sector":    {"_type":"choice", "_value": ['late_activation_center']}
+    # "regularize_weight":    {"_type":"choice", "_value": [0]},
+}
